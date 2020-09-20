@@ -1,0 +1,209 @@
+/*
+Module: CPU
+Purpose: integrates decoder, FSM and instruction register and datapath module into one system that can be used in lab6_top. 
+inputs: clk, reset, s, load, in
+Outputs: out, N, V, Z, w. the first four are a result of the datapath module and w represents the wait state for the FSM. 
+*/
+`define MWRITE 1
+`define MREAD 1
+
+module cpu(clk, reset, read_data, datapath_out, N, V, Z, mem_addr, m_cmd, write_data,halt_state_output);
+
+input clk, reset;
+input [15:0] read_data;
+output [15:0] datapath_out;
+output N,V,Z; 
+output [8:0] mem_addr;
+output halt_state_output;
+
+//instructiondecoder 
+wire [15:0] outtid; //16 bit instruction register output 
+wire [2:0] nsel;
+wire [2:0] opcode;
+wire [1:0] op;
+wire [2:0] cond;
+
+wire [2:0] writenum;
+wire [2:0] readnum;
+
+wire [15:0] sximm8; //signed
+wire [15:0] sximm5; //signed
+wire [8:0] sxim8;//signed
+wire [1:0] ALUop; 
+
+	//statemachine
+	
+	wire [3:0] vsel; //9
+	wire [15:0] mdata;
+	wire [8:0] PCin;
+	wire write;
+	wire loada; //3
+	wire loadb; //3
+	wire [1:0] shift; //8		//all inputs required by other module instantiations	
+	wire bsel; //7
+	wire asel; //6
+	wire loadc; //5
+	wire loads; //10
+
+//State machine modifications - new outputs controlling address and read/write instructions and the program counter. 
+
+wire load_ir, load_pc, reset_pc, addr_sel, load_addr;
+output [1:0] m_cmd;
+
+//PC
+wire [8:0] in1;
+
+assign in1 = 9'b0;	/*alternate to PC input, if we want to reset.*/ 
+
+wire [8:0] PC;
+wire [8:0] next_pc;
+
+//Data Address
+
+output [15:0] write_data;
+wire [8:0] dataaddout;
+wire [8:0] counterout;
+wire [8:0] dataout_PC;
+wire stage2;
+
+/*All 3 hardware blocks exist in same place as Lab 6*/ 
+vDFFE #(16) instructionregisterinstantiation(clk, load_ir, read_data, outtid); //instruction register - out to instruction decoder
+
+instructiondecoder instructiondecoderinstantiation(outtid, nsel, opcode, op, writenum, readnum, sximm5, sximm8,  ALUop, shift,cond,sxim8); 
+
+statemachine FSM(opcode, op, reset, clk,
+
+nsel,
+vsel,
+
+write, 
+
+loada,
+loadb,
+
+bsel,
+asel,
+
+loadc,
+loads,
+
+//modifications
+load_ir,
+load_pc,
+reset_pc,
+addr_sel,
+m_cmd,
+load_addr,
+halt_state_output,
+stage2
+);
+
+
+datapath DP(clk, // recall from Lab 4 that KEY0 is 1 when NOT pushed
+
+                // register operand fetch stage
+                readnum,
+                vsel,
+                loada,
+                loadb,
+
+                // computation stage (sometimes called "execute")
+                shift,
+                asel,
+                bsel,
+                ALUop,
+                loadc,
+                loads,
+
+                // set when "writing back" to register file
+                writenum,
+                write,  
+
+                // outputs
+                Z, V, N,
+                datapath_out,
+
+		//modification //NEW
+		mdata,
+		sximm8,
+		sximm5,
+		PCin
+             );
+
+//Program counter instantiations - NEW. 
+
+Counter PC_counter(PC, counterout, Z, N, V, sxim8, cond,stage2,datapath_out); /*input: PC, output counterout*/ 
+
+Mux3a #(9) PCmux(in1, counterout, reset_pc, next_pc);/*multiplexer which decides whether to reset or increment.*/	
+
+vDFFE #(9) PCinstance(clk, load_pc, next_pc, PC); /*the actual program counter register that holds and transfers appropriate values depending on the progress of the program. */
+
+//Data Address - lower part of figure 2 - responsible for transferring address to memory. 
+
+vDFFE #(9) DataAddressinstance(clk, load_addr, write_data[8:0], dataaddout);	/*holding or transferring the address fed from datapath module*/
+Mux3a #(9) PCDataAddressmuxinstance(PC, dataaddout, addr_sel, mem_addr);	/*Mux chooses between PC address or data address. */  
+
+assign PCin = PC;	/*random input coming into VSEL that we are not going to use until Lab 8, set to 0 for no reason. */
+
+assign write_data = datapath_out;  //wire assignments as in Figure 2 of Lab 7 handout
+
+assign mdata = read_data;
+
+endmodule 
+
+module Counter(in, out, Z, N, V, sxim8, cond,stage2,datapath_out);	/*at any change in conditions, output is incremented by 1, starting from fixed initial input value. */
+input [8:0] in;
+input Z,V,N;
+input [8:0]sxim8;
+input [2:0]cond;
+input stage2;
+input [15:0] datapath_out;
+output reg [8:0] out;		/*reg because assigned in always block*/
+
+always @(*) begin		/*Combinational always block*/ 
+case(cond) 
+	3'b000:begin
+		out=in+9'd1+sxim8;	//B state 
+	end
+	3'b001:begin			//BEQ state
+		if(Z==1)
+			out=in+9'd1+sxim8;	
+		else 
+			out=in+9'd1;
+	end
+	3'b010:begin			//BNE state 
+		if(Z==0)
+			out=in+9'd1+sxim8;
+		else 
+			out=in+9'd1;
+	end
+	3'b011:begin 			//BLT state 
+		if(N!=V)
+			out=in+9'd1+sxim8;
+		else 
+			out=in+9'd1;
+	end
+	3'b100:begin			//BLE state 
+		if(N!=V || Z==1)
+			out=in+9'd1+sxim8;
+		else 
+			out=in+9'd1;
+	end
+	3'b101:begin
+		
+		out=in+9'd1+sxim8;
+					
+		end
+	3'b110: begin
+		out = datapath_out[8:0];
+		end
+	
+	default:out=in+9'd1;
+endcase
+end
+
+endmodule
+
+
+
+

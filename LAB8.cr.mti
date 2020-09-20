@@ -1,0 +1,93 @@
+{C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/shifter.v} {1 {vlog -work work -stats=none {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/shifter.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module shifter
+
+Top level modules:
+	shifter
+
+} {} {}} {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/lab8_top.v} {1 {vlog -work work -stats=none {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/lab8_top.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module lab8_top
+-- Compiling module tribuff
+-- Compiling module tribufftwo
+-- Compiling module RAM
+
+Top level modules:
+	lab8_top
+
+} {} {}} {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/lab8_stage2_tb.v} {1 {vlog -work work -stats=none {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/lab8_stage2_tb.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module lab8_stage2_tb
+
+Top level modules:
+	lab8_stage2_tb
+
+} {} {}} {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/lab8_autograder_check.v} {1 {vlog -work work -stats=none {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/lab8_autograder_check.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module lab8_check_tb
+
+Top level modules:
+	lab8_check_tb
+
+} {} {}} {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/regfile.v} {1 {vlog -work work -stats=none {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/regfile.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module regfile
+-- Compiling module decoder
+-- Compiling module Mux8a
+-- Compiling module vDFFE
+
+Top level modules:
+	regfile
+
+} {} {}} {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/alu.v} {1 {vlog -work work -stats=none {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/alu.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ALU
+
+Top level modules:
+	ALU
+
+} {} {}} {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/statemachine.v} {1 {vlog -work work -stats=none {C:\Users\jinil\Desktop\Computer Courses\CPEN 211\LAB8\LAB8 EXPERIMENT\statemachine.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module statemachine
+
+Top level modules:
+	statemachine
+
+} {} {}} {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/datapath.v} {1 {vlog -work work -stats=none {C:\Users\jinil\Desktop\Computer Courses\CPEN 211\LAB8\LAB8 EXPERIMENT\datapath.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module datapath
+-- Compiling module vDFFEx
+-- Compiling module Mux3a
+-- Compiling module modifiedmux
+-- Compiling module modifiedvDFFEx
+
+Top level modules:
+	datapath
+
+} {} {}} {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/lab7_top.v} {1 {vlog -work work -stats=none {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/lab7_top.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module lab8_top
+-- Compiling module tribuff
+-- Compiling module tribufftwo
+-- Compiling module RAM
+
+Top level modules:
+	lab8_top
+
+} {} {}} {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/cpu.v} {1 {vlog -work work -stats=none {C:\Users\jinil\Desktop\Computer Courses\CPEN 211\LAB8\LAB8 EXPERIMENT\cpu.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module cpu
+-- Compiling module Counter
+
+Top level modules:
+	cpu
+
+} {} {}} {C:/Users/jinil/Desktop/Computer Courses/CPEN 211/LAB8/LAB8 EXPERIMENT/instructiondecoder.v} {1 {vlog -work work -stats=none {C:\Users\jinil\Desktop\Computer Courses\CPEN 211\LAB8\LAB8 EXPERIMENT\instructiondecoder.v}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module instructiondecoder
+-- Compiling module modifiedmuxid
+
+Top level modules:
+	instructiondecoder
+
+} {} {}}
